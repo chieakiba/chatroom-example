@@ -13,12 +13,12 @@ var usernames = [];
 io.on('connection', function (socket) {
     console.log('Client connected');
 
-    socket.on('connect', function (usernames, userConnected) {
+    socket.on('connect', function (username, room) {
         usernames.push(username);
-        console.log(usernames);
-        socket.broadcast.emit('username', userConnected);
+        socket.broadcast.emit(username, 'left', room);
     });
 
+    console.log('show me the list of usernames', usernames);
 
     socket.on('typing', function (userTyping) {
         console.log('User is typing', userTyping);

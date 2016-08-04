@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var username = prompt('Enter your username');
+    var usernames = [];
     var socket = io();
     var input = $('input');
     var messages = $('#messages');
@@ -37,19 +38,20 @@ $(document).ready(function () {
 
     var room = 'general';
 
-    userConnected(username);
-    socket.emit('connect', userConnected);
-    socket.on('username', userConnected);
-    console.log(username, 'joined', room, 'channel');
+    socket.on('connect', function (username, room) {
+        socket.emit('username', userConnected);
+        userConnected(username);
 
-    //    socket.on('usernames', userConnected);
+    });
+    socket.on('username', userConnected);
 
     input.on('keydown', function (event) {
         if (event.keyCode != 13) {
-            //send message that says user is typing
+
             return;
         }
         // else {
+        //send message that says user is typing
         //once user key ups, remove the message
         //        }
 
@@ -64,9 +66,11 @@ $(document).ready(function () {
 
     socket.on('message', addMessage);
 
-    socket.on('disconnect', function (room) {
-        console.log('User left', room);
-        socket.emit(username, ' left ', room);
-        socket.on('username', userDisconnected);
+    socket.on('disconnect', function (username, room) {
+        console.log(username, 'left', room);
+        socket.emit(username, 'left', room);
+        userDisconnected(username);
+
     });
+    socket.on('username', userDisconnected);
 });
