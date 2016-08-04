@@ -13,12 +13,11 @@ var usernames = [];
 io.on('connection', function (socket) {
     console.log('Client connected');
 
-    socket.on('connect', function (username, room) {
+    socket.on('connect', function (username, userConnected) {
         usernames.push(username);
-        socket.broadcast.emit(username, 'left', room);
+        socket.broadcast.emit(username, userConnected);
     });
-
-    console.log('show me the list of usernames', usernames);
+    //    console.log('who\'s in the room?', usernames);
 
     socket.on('typing', function (userTyping) {
         console.log('User is typing', userTyping);
@@ -35,9 +34,8 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('message', message);
     });
     //remove usernames from array (array manipulation)
-    socket.on('disconnect', function (username, room) {
-        console.log(username, ' left', room);
-        socket.broadcast.emit(username, ' left ', room);
+    socket.on('disconnect', function (username, userDisconnected) {
+        socket.broadcast.emit(username, userDisconnected);
     });
 });
 

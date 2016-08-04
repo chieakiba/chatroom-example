@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    //global variables
     var username = prompt('Enter your username');
     var usernames = [];
     var socket = io();
@@ -7,6 +8,7 @@ $(document).ready(function () {
     var userInRoom = $('#whosintheroom');
     var typing = $('#useristyping');
 
+    //function for adding messages
     var addMessage = function (message) {
         if (typeof message == 'object') {
             console.log('message', message);
@@ -38,22 +40,24 @@ $(document).ready(function () {
 
     var room = 'general';
 
-    socket.on('connect', function (username, room) {
+    socket.on('connect', function (usernames) {
         socket.emit('username', userConnected);
         userConnected(username);
 
     });
-    socket.on('username', userConnected);
+    socket.on('users', userConnected);
+    console.log('who\'s in the room?', usernames);
+
 
     input.on('keydown', function (event) {
-        if (event.keyCode != 13) {
-
-            return;
+        if (event.keyCode === 13) {
+            socket.emit('notTyping', userNotTyping);
+            socket.on('notTyping', userNotTyping);
+            //            return;
+        } else {
+            socket.emit('typing', userTyping);
+            socket.on('typing', userTyping);
         }
-        // else {
-        //send message that says user is typing
-        //once user key ups, remove the message
-        //        }
 
         var message = input.val();
         addMessage(message);
@@ -64,11 +68,11 @@ $(document).ready(function () {
         input.val('');
     });
 
+
     socket.on('message', addMessage);
 
-    socket.on('disconnect', function (username, room) {
-        console.log(username, 'left', room);
-        socket.emit(username, 'left', room);
+    socket.on('disconnect', function (username) {
+        socket.emit('username', userDisconnected);
         userDisconnected(username);
 
     });
