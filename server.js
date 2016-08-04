@@ -13,15 +13,21 @@ var usernames = [];
 io.on('connection', function (socket) {
     console.log('Client connected');
 
-    socket.on('connect', function (room) {
-        console.log('User joined', room);
-        socket.broadcast.emit('User joined ', room);
+    socket.on('connect', function (usernames, userConnected) {
+        usernames.push(username);
+        console.log(usernames);
+        socket.broadcast.emit('username', userConnected);
     });
 
-    socket.on('userConnect', function (username) {
-        usernames.push(username);
-        //        console.log('User connected', username);
-        socket.broadcast.emit('users', usernames);
+
+    socket.on('typing', function (userTyping) {
+        console.log('User is typing', userTyping);
+        socket.broadcast.emit('typing', userTyping);
+    })
+
+    socket.on('notTyping', function (userNotTyping) {
+        console.log('User is not typing', userNotTyping);
+        socket.broadcast.emit('Not typing', userNotTyping);
     });
 
     socket.on('message', function (message) {
@@ -29,9 +35,9 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('message', message);
     });
     //remove usernames from array (array manipulation)
-    socket.on('disconnect', function (room) {
-        console.log('User left', room);
-        socket.broadcast.emit('User left ', room);
+    socket.on('disconnect', function (username, room) {
+        console.log(username, ' left', room);
+        socket.broadcast.emit(username, ' left ', room);
     });
 });
 

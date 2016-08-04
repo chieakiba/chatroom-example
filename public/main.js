@@ -3,6 +3,8 @@ $(document).ready(function () {
     var socket = io();
     var input = $('input');
     var messages = $('#messages');
+    var userInRoom = $('#whosintheroom');
+    var typing = $('#useristyping');
 
     var addMessage = function (message) {
         if (typeof message == 'object') {
@@ -14,32 +16,42 @@ $(document).ready(function () {
 
             messages.append('<div>' + username + ": " + message + '</div>');
         }
-
     };
 
-    var userConnected = function (username) {
-        messages.html('<div>' + username + ' has connected!</div>');
+    var userTyping = function (usernames) {
+        typing.html(username + ' is typing...');
     };
 
-    var userDisconnected = function (username) {
-        messages.html('<div>' + username + ' has disconnected!</div>');
+    var userNotTyping = function (usernames) {
+        typing.remove();
     };
 
-    var room = 'General';
+    // UI to show who is in the room
+    var userConnected = function (usernames) {
+        userInRoom.append('<h3>' + username + ' has connected!</h3>');
+    };
 
-    socket.on('connect', function () {
-        socket.emit('userConnect', username);
-        console.log('User joined', room);
-    });
+    var userDisconnected = function (usernames) {
+        userInRoom.append('<h3>' + username + ' has disconnected!</h3>');
+    };
 
-    socket.on('users', function (usernames) {
-        console.log('Username(s) joined the chat', usernames);
-    });
+    var room = 'general';
+
+    userConnected(username);
+    socket.emit('connect', userConnected);
+    socket.on('username', userConnected);
+    console.log(username, 'joined', room, 'channel');
+
+    //    socket.on('usernames', userConnected);
 
     input.on('keydown', function (event) {
         if (event.keyCode != 13) {
+            //send message that says user is typing
             return;
         }
+        // else {
+        //once user key ups, remove the message
+        //        }
 
         var message = input.val();
         addMessage(message);
@@ -48,8 +60,8 @@ $(document).ready(function () {
             username: username
         });
         input.val('');
-
     });
+
     socket.on('message', addMessage);
 
     socket.on('disconnect', function (room) {
