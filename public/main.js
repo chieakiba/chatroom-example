@@ -34,8 +34,13 @@ $(document).ready(function () {
 
     socket.on('users', function (usernames) {
         console.log('Username(s) joined the chat', usernames);
+        $('.online').text(usernames.length + " online");
+        socket.emit('online', usernames.length);
     });
 
+    socket.on('online', function (length) {
+        alert(length);
+    });
     input.on('keydown', function (event) {
         if (event.keyCode != 13) {
             return;
@@ -55,6 +60,7 @@ $(document).ready(function () {
     socket.on('disconnect', function (room) {
         console.log('User left', room);
         socket.emit(username, ' left ', room);
+        usernames.splice(usernames.indexOf(username), 1)
         socket.on('username', userDisconnected);
     });
 });
