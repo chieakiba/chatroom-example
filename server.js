@@ -40,7 +40,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('error', function (error) {
-        console.log('Socket error! Something isn\'t working!' + error);
+        console.log('Socket error! Something isn\'t working! ' + error);
         socket.broadcast.emit(error);
     });
 });

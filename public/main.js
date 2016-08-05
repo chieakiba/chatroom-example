@@ -7,6 +7,7 @@ $(document).ready(function () {
     var messages = $('#messages');
     var userInRoom = $('#whosintheroom');
     var typing = $('#useristyping');
+    var room = 'general';
 
     //function for adding messages
     var addMessage = function (message) {
@@ -21,24 +22,25 @@ $(document).ready(function () {
         }
     };
 
+    //function to show user is typing message
     var userTyping = function (usernames) {
         typing.html(username + ' is typing...');
     };
 
+    //function that removes user is typing message
     var userNotTyping = function (usernames) {
         typing.remove();
     };
 
-    // UI to show who is in the room
+    // UI to show who connected to the room
     var userConnected = function (usernames) {
         userInRoom.append('<h3>' + username + ' has connected!</h3>');
     };
 
+    //user disconnected message
     var userDisconnected = function (usernames) {
         userInRoom.append('<h3>' + username + ' has disconnected!</h3>');
     };
-
-    var room = 'general';
 
     socket.on('connect', function (usernames) {
         socket.emit('username', userConnected);
@@ -48,18 +50,19 @@ $(document).ready(function () {
 
     socket.on('users', userConnected);
 
-
-
-    input.on('keydown', function (event) {
-        if (event.keyCode === 13) {
-            socket.emit('notTyping', userNotTyping);
-            socket.on('notTyping', userNotTyping);
-            //            return;
+    input.on('keydown', function (event, userTyping, userNotTyping) {
+        //emit message that the user is typing if enter is not pressed
+        socket.emit('typing', userTyping);
+        //when user is typing, ignore everything until they hit enter
+        if (event.keyCode != 13) {
+            return;
         } else {
-            socket.emit('typing', userTyping);
-            socket.on('typing', userTyping);
+            //once enter is pressed remove the message that user is typing
+            socket.emit('notTyping', userNotTyping);
+
         }
 
+        //until the user hits enter, the message value is taken in from the input box and the socket emits the object (message and username)
         var message = input.val();
         addMessage(message);
         socket.emit('message', {
@@ -68,7 +71,9 @@ $(document).ready(function () {
         });
         input.val('');
     });
-
+    socket.on('typing', userTyping);
+    socket.on('notTyping', userNotTyping);
+    //message is added onto the page
     socket.on('message', addMessage);
 
     socket.on('disconnect', function (username) {
