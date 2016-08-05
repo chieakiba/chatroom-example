@@ -43,10 +43,11 @@ $(document).ready(function () {
     socket.on('connect', function (usernames) {
         socket.emit('username', userConnected);
         userConnected(username);
-
+        console.log('who\'s in the room?', usernames);
     });
+
     socket.on('users', userConnected);
-    console.log('who\'s in the room?', usernames);
+
 
 
     input.on('keydown', function (event) {
@@ -67,7 +68,6 @@ $(document).ready(function () {
         });
         input.val('');
     });
-
 
     socket.on('message', addMessage);
 

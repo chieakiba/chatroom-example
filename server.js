@@ -15,6 +15,7 @@ io.on('connection', function (socket) {
 
     socket.on('connect', function (username, userConnected) {
         usernames.push(username);
+        console.log('who\'s in the room?', usernames);
         socket.broadcast.emit(username, userConnected);
     });
     //    console.log('who\'s in the room?', usernames);
@@ -22,7 +23,7 @@ io.on('connection', function (socket) {
     socket.on('typing', function (userTyping) {
         console.log('User is typing', userTyping);
         socket.broadcast.emit('typing', userTyping);
-    })
+    });
 
     socket.on('notTyping', function (userNotTyping) {
         console.log('User is not typing', userNotTyping);
@@ -36,6 +37,11 @@ io.on('connection', function (socket) {
     //remove usernames from array (array manipulation)
     socket.on('disconnect', function (username, userDisconnected) {
         socket.broadcast.emit(username, userDisconnected);
+    });
+
+    socket.on('error', function (error) {
+        console.log('Socket error! Something isn\'t working!' + error);
+        socket.broadcast.emit(error);
     });
 });
 
