@@ -18,22 +18,17 @@ $(document).ready(function () {
     socket.emit('username', username);
     addUsers(username);
     socket.on('username', addUsers);
+
+    //Emit each usernames to the server side and once broadcasted, push those names into the array
     socket.on('username', function (data) {
         allTheUsers.push(data);
-        console.log('Are all the users in this array?', data);
+        console.log('Are all the users in this array?', allTheUsers);
     });
 
     //When user connects and/or disconnects show that the user connected/disconnected
 
     //Show who is online
 
-    //Push users into the usernames array as they enter their names into the prompt
-    socket.emit('allTheUsers', allTheUsers);
-    allTheUsers.push(username);
-    socket.on('allTheUsers', function (data) {
-        allTheUsers.push(data);
-        console.log('Are all the users in this array?', data);
-    });
 
     //When user is typing, show that the user is typing
 
