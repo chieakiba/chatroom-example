@@ -3,7 +3,7 @@ $(document).ready(function () {
     var socket = io();
     var usersInRoom = $('#usersInRoom');
     var addUsers = function (username) {
-        usersInRoom.append('<div>' + username + ' is online!' + '</div>');
+        usersInRoom.append('<div>' + username + '</div>');
     };
     var input = $('input');
     var messages = $('#messages');
@@ -14,17 +14,25 @@ $(document).ready(function () {
         messages.append('<div>' + message + '</div>');
     };
 
+    var userDisconnected = function (username) {
+        messages.append('<div>' + username + ' has disconnected!</div>');
+    };
+
+    var userConnected = function (username) {
+        messages.append('<div>' + username + ' has connected!</div>');
+    };
+
     //Using socket emitter to emit username once entered in the prompt
     socket.emit('username', username);
 
     //Pushes the username into the array once user enters their handle name into the prompt
     allTheUsers.push(username);
-    addUsers(username);
+    addUsers(allTheUsers);
 
     //Emit each usernames to the server side and once broadcasted, append the usernames onto the page and push those names into the array
     socket.on('username', function (data) {
-        addUsers(data);
         allTheUsers.push(data);
+        addUsers(data);
         console.log('Are all the users in this array?', allTheUsers);
     });
 
