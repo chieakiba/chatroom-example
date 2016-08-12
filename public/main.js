@@ -18,6 +18,10 @@ $(document).ready(function () {
     socket.emit('username', username);
     addUsers(username);
     socket.on('username', addUsers);
+    socket.on('username', function (data) {
+        allTheUsers.push(data);
+        console.log('Are all the users in this array?', data);
+    });
 
     //When user connects and/or disconnects show that the user connected/disconnected
 
