@@ -28,11 +28,6 @@ $(document).ready(function () {
         console.log('Are all the users in this array?', allTheUsers);
     });
 
-    //    socket.emit('allTheUsers', allTheUsers);
-    //    socket.on('allTheusers', function (data) {
-    //        console.log('Who\'s in the room?', data);
-    //    });
-
     //When user connects and/or disconnects show that the user connected/disconnected
 
     //Show who is online
