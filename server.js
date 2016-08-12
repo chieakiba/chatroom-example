@@ -16,10 +16,10 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('username', username);
     });
 
-//    socket.on('usernames', function (usernames) {
-            //        console.log('Who is online?', usernames);
-            //        socket.broadcast.emit('usernames', usernames);
-            //    });
+    socket.on('usernames', function (usernames) {
+        console.log('Who is online?', usernames);
+        socket.broadcast.emit('usernames', usernames);
+    });
 
     socket.on('message', function (message) {
         console.log('Received message:', message);
