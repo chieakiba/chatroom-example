@@ -24,6 +24,7 @@ $(document).ready(function () {
     //Show who is online
 
     //Push users into the usernames array as they enter their names into the prompt
+    usernames.push(username);
     socket.emit('usernames', usernames);
     socket.on('usernames', function (data) {
         usernames.push(data);
