@@ -24,11 +24,11 @@ $(document).ready(function () {
     //Show who is online
 
     //Push users into the usernames array as they enter their names into the prompt
-    allTheUsers.push(username);
     socket.emit('allTheUsers', allTheUsers);
-    socket.emit('allTheUsers', function (username) {
-        allTheUsers.push(username);
-        console.log('Are all the users in this array?', username);
+    allTheUsers.push(username);
+    socket.on('allTheUsers', function (data) {
+        allTheUsers.push(data);
+        console.log('Are all the users in this array?', data);
     });
 
     //When user is typing, show that the user is typing
