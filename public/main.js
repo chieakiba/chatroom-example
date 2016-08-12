@@ -2,6 +2,9 @@ $(document).ready(function () {
     //global variables
     var socket = io();
     var usersInRoom = $('#usersInRoom');
+    var addUsers = function (username) {
+        usersInRoom.append('<div>' + username + ' is online!' + '</div>');
+    };
     var input = $('input');
     var messages = $('#messages');
     var username = prompt('Please enter your name');
@@ -13,9 +16,8 @@ $(document).ready(function () {
 
     //Socket emitter to emit username once entered in the prompt
     socket.emit('username', username);
-    socket.on('username', function (data) {
-        usersInRoom.append(data + ' is online!');
-    });
+    addUsers(username);
+    socket.on('username', addUsers);
     //When user connects and/or disconnects show that the user connected/disconnected
 
     //Show who is online
