@@ -16,9 +16,9 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('username', username);
     });
 
-    socket.on('usernames', function (usernames) {
-        console.log('Who is online?', usernames);
-        socket.broadcast.emit('usernames', usernames);
+    socket.on('allTheUsers', function (allTheUsers) {
+        console.log('Who is online?', allTheUsers);
+        socket.broadcast.emit('allTheUsers', allTheUsers);
     });
 
     socket.on('message', function (message) {

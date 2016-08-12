@@ -8,7 +8,7 @@ $(document).ready(function () {
     var input = $('input');
     var messages = $('#messages');
     var username = prompt('Please enter your name');
-    var usernames = [];
+    var allTheUsers = [];
 
     var addMessage = function (message) {
         messages.append('<div>' + message + '</div>');
@@ -24,11 +24,11 @@ $(document).ready(function () {
     //Show who is online
 
     //Push users into the usernames array as they enter their names into the prompt
-    usernames.push(username);
-    socket.emit('usernames', usernames);
-    socket.on('usernames', function (data) {
-        usernames.push(data);
-        console.log('Are all the users in this array?', data);
+    allTheUsers.push(username);
+    socket.emit('allTheUsers', allTheUsers);
+    socket.emit('allTheUsers', function (username) {
+        allTheUsers.push(username);
+        console.log('Are all the users in this array?', username);
     });
 
     //When user is typing, show that the user is typing
