@@ -14,18 +14,19 @@ $(document).ready(function () {
         messages.append('<div>' + message + '</div>');
     };
 
-    //Socket emitter to emit username once entered in the prompt
+    //Using socket emitter to emit username once entered in the prompt
     socket.emit('username', username);
     addUsers(username);
     socket.on('username', addUsers);
+
     //When user connects and/or disconnects show that the user connected/disconnected
 
     //Show who is online
 
     //Push users into the usernames array as they enter their names into the prompt
     socket.emit('usernames', usernames);
-    usernames.push(username);
     socket.on('usernames', function (data) {
+        usernames.push(data);
         console.log('Are all the users in this array?', data);
     });
 
