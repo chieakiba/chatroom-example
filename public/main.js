@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     //Using socket emitter to emit username once entered in the prompt
     socket.emit('username', username);
+    allTheUsers.push(username);
     addUsers(username);
 
     //Emit each usernames to the server side and once broadcasted, push those names into the array
