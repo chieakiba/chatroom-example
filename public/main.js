@@ -16,20 +16,22 @@ $(document).ready(function () {
 
     //Using socket emitter to emit username once entered in the prompt
     socket.emit('username', username);
+
+    //Pushes the username into the array once user enters their handle name into the prompt
     allTheUsers.push(username);
     addUsers(username);
 
-    //Emit each usernames to the server side and once broadcasted, push those names into the array
+    //Emit each usernames to the server side and once broadcasted, append the usernames onto the page and push those names into the array
     socket.on('username', function (data) {
         addUsers(data);
         allTheUsers.push(data);
         console.log('Are all the users in this array?', allTheUsers);
     });
 
-    socket.emit('allTheUsers', allTheUsers);
-    socket.on('allTheusers', function (data) {
-        console.log('Who\'s in the room?', data);
-    });
+    //    socket.emit('allTheUsers', allTheUsers);
+    //    socket.on('allTheusers', function (data) {
+    //        console.log('Who\'s in the room?', data);
+    //    });
 
     //When user connects and/or disconnects show that the user connected/disconnected
 
