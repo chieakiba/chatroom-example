@@ -27,7 +27,10 @@ io.on('connection', function (socket) {
 
     socket.on('message', function (message) {
         console.log('Received message:', message);
-        socket.broadcast.emit('message', message);
+        socket.broadcast.emit('message', {
+            username: username,
+            message: message
+        });
     });
 
     socket.on('error', function (error) {
