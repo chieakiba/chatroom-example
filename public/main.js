@@ -42,11 +42,13 @@ $(document).ready(function () {
         //Emit the array to the server
         socket.emit('allTheUsers', allTheUsers);
 
-        //Show who is online
-        socket.on('allTheUsers', function (data) {
-            addUsers(data);
-            console.log('Who\'s in the room?', data);
-        });
+
+    });
+
+    //Show who is online
+    socket.on('allTheUsers', function (data) {
+        addUsers(data);
+        console.log('Who\'s in the room?', data);
     });
 
     socket.on('allTheUsers', allTheUsers);
