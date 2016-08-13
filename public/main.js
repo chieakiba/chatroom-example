@@ -11,7 +11,7 @@ $(document).ready(function () {
     var allTheUsers = [];
 
 
-    var addMessage = function (message) {
+    var addMessage = function (username, message) {
         messages.append('<div>' + username + ':' + message + '</div>');
         console.log('username', username);
         console.log('message', message);
@@ -77,5 +77,8 @@ $(document).ready(function () {
         addMessage(username, message);
         input.val('');
     });
-    socket.on('message', addMessage);
+    socket.on('message', function (data) {
+        addMessage(data);
+        console.log('Is this the object literal?', data);
+    });
 });
