@@ -10,8 +10,14 @@ $(document).ready(function () {
     var username = prompt('Please enter your name');
     var allTheUsers = [];
 
-    var addMessage = function (username, message) {
-        messages.append('<div>' + username.username + ':' + message.message + '</div>');
+    //Message object literal
+    var messageObject = {
+        username: username,
+        message: message
+    };
+
+    var addMessage = function (messageObject) {
+        messages.append('<div>' + messageObject.username + ':' + messageObject.message + '</div>');
     };
 
     var userDisconnected = function (username) {
@@ -65,12 +71,6 @@ $(document).ready(function () {
         }
 
         var message = input.val();
-
-        //Message object literal
-        var messageObject = {
-            username: username,
-            message: message
-        };
 
         //Emit socket to server side so when user sends a message, the user will know who sent that message
         socket.emit('message', messageObject);
