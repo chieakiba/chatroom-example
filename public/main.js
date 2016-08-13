@@ -68,12 +68,13 @@ $(document).ready(function () {
         }
 
         var message = input.val();
-
-        //Emit socket to server side so when user sends a message, the user will know who sent that message
-        socket.emit('message', {
+        var messageObject = {
             username: username,
             message: message
-        });
+        };
+
+        //Emit socket to server side so when user sends a message, the user will know who sent that message
+        socket.emit('message', messageObject);
         addMessage(username, message);
         input.val('');
     });
