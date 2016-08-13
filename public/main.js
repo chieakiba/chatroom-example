@@ -41,6 +41,7 @@ $(document).ready(function () {
         addUsers(allTheUsers);
         console.log('Who\'s in the room?', data);
     });
+    socket.on('allTheUsers', allTheUsers);
 
     //When user connects, show that the user connected/disconnected
     socket.emit('userConnected', userConnected);
