@@ -16,6 +16,11 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('username', username);
     });
 
+    socket.on('allTheUsers', function (allTheUsers) {
+        console.log('Checking the array', allTheUsers);
+        socket.broadcast.emit('allTheUsers', allTheUsers);
+    });
+
     socket.on('message', function (message) {
         console.log('Received message:', message);
         socket.broadcast.emit('message', message);
