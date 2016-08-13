@@ -32,13 +32,13 @@ $(document).ready(function () {
     socket.on('username', function (data) {
         allTheUsers.push(data);
         console.log('Who is this?', data);
+        console.log('What\'s in the array?', allTheUsers);
+        socket.emit('allTheUsers', allTheUsers);
     });
-
-    socket.emit('allTheUsers', allTheUsers);
 
     //Show who is online
     socket.on('allTheUsers', function (data) {
-        addUsers(allTheUsers);
+        addUsers(data);
         console.log('Who\'s in the room?', data);
     });
     socket.on('allTheUsers', allTheUsers);
