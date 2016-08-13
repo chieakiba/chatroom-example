@@ -34,23 +34,25 @@ $(document).ready(function () {
         console.log('Who is this?', data);
         console.log('What\'s in the array?', allTheUsers);
         socket.emit('allTheUsers', allTheUsers);
-        //Show who is online
-        socket.on('allTheUsers', function (data) {
-            addUsers(data);
-            console.log('Who\'s in the room?', data);
-        });
-        socket.on('allTheUsers', allTheUsers);
+
+
+    });
+
+    //Show who is online
+    socket.on('allTheUsers', function (data) {
+        addUsers(data);
+        console.log('Who\'s in the room?', data);
     });
 
     //When user connects, show that the user connected/disconnected
-    socket.emit('userConnected', userConnected);
-    userConnected(username);
-    socket.on('userConnected', userConnected);
+    //    socket.emit('userConnected', userConnected);
+    //    userConnected(username);
+    //    socket.on('userConnected', userConnected);
 
     //When user disconnects, show that the user connected/disconnected
-    socket.emit('userDisconnected', userDisconnected);
-    userDisconnected(username);
-    socket.on('userDisconnected', userDisconnected);
+    //    socket.emit('userDisconnected', userDisconnected);
+    //    userDisconnected(username);
+    //    socket.on('userDisconnected', userDisconnected);
 
     //When user is typing, show that the user is typing
 
