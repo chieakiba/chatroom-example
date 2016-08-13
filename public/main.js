@@ -35,24 +35,24 @@ $(document).ready(function () {
     });
 
     socket.emit('allTheUsers', allTheUsers);
+
+    //Show who is online
     socket.on('allTheUsers', function (data) {
         addUsers(allTheUsers);
         console.log('Who\'s in the room?', data);
     });
 
-    //When user connects and/or disconnects show that the user connected/disconnected
+    //When user connects, show that the user connected/disconnected
     socket.emit('userConnected', userConnected);
     socket.on('userConnected', function (data) {
         userConnected(data);
     });
 
+    //When user disconnects, show that the user connected/disconnected
     socket.emit('userDisconnected', userDisconnected);
     socket.on('userDisconnected', function (data) {
         userDisconnected(data);
     });
-
-    //Show who is online
-
 
     //When user is typing, show that the user is typing
 
