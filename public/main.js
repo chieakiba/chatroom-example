@@ -11,7 +11,7 @@ $(document).ready(function () {
     var allTheUsers = [];
 
 
-    var addMessage = function (username, message) {
+    var addMessage = function (message) {
         messages.append('<div>' + username + ':' + message + '</div>');
         console.log('username', username);
         console.log('message', message);
