@@ -35,17 +35,18 @@ $(document).ready(function () {
         allTheUsers.push(data);
         console.log('Who is this?', data);
         console.log('What\'s in the array?', allTheUsers);
+
+        //Append the list of users on the page
+        addUsers(allTheUsers);
+
         //Emit the array to the server
         socket.emit('allTheUsers', allTheUsers);
-    });
 
-    //Append the list of users on the page
-    addUsers(allTheUsers);
-
-    //Show who is online
-    socket.on('allTheUsers', function (data) {
-        addUsers(data);
-        console.log('Who\'s in the room?', data);
+        //Show who is online
+        socket.on('allTheUsers', function (data) {
+            addUsers(data);
+            console.log('Who\'s in the room?', data);
+        });
     });
 
     socket.on('allTheUsers', allTheUsers);
