@@ -41,6 +41,15 @@ $(document).ready(function () {
     });
 
     //When user connects and/or disconnects show that the user connected/disconnected
+    socket.emit('userConnected', userConnected);
+    socket.on('userConnected', function (data) {
+        userConnected(data);
+    });
+
+    socket.emit('userDisconnected', userDisconnected);
+    socket.on('userDisconnected', function (data) {
+        userDisconnected(data);
+    });
 
     //Show who is online
 

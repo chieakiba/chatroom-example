@@ -11,6 +11,10 @@ var io = socket_io(server);
 io.on('connection', function (socket) {
     console.log('Client connected');
 
+    socket.on('userConnected', function (username) {
+        console.log(username, 'has connected');
+    });
+
     socket.on('username', function (username) {
         console.log('Who just got online?', username);
         socket.broadcast.emit('username', username);
@@ -30,7 +34,7 @@ io.on('connection', function (socket) {
         console.log('What is the error? --', error);
     });
 
-    socket.on('disconnect', function (username) {
+    socket.on('userDisconnected', function (username) {
         console.log(username, 'has disconnected');
     });
 });
