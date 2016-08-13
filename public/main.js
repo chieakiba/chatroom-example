@@ -28,8 +28,6 @@ $(document).ready(function () {
     //Pushes the username into the array once user enters their handle name into the prompt
     allTheUsers.push(username);
 
-
-
     //Emit each usernames to the server side and once broadcasted, append the usernames onto the page and push those names into the array
     socket.on('username', function (data) {
         allTheUsers.push(data);
@@ -41,8 +39,6 @@ $(document).ready(function () {
 
         //Emit the array to the server
         socket.emit('allTheUsers', allTheUsers);
-
-
     });
 
     //Show who is online
@@ -50,8 +46,6 @@ $(document).ready(function () {
         addUsers(data);
         console.log('Who\'s in the room?', data);
     });
-
-    socket.on('allTheUsers', allTheUsers);
 
     //When user connects, show that the user connected/disconnected
     //    socket.emit('userConnected', userConnected);
