@@ -36,18 +36,17 @@ $(document).ready(function () {
         allTheUsers.push(data);
         console.log('Who is this?', data);
         console.log('What\'s in the array?', allTheUsers);
+        //Show who is online
+        socket.emit('allTheUsers', allTheUsers);
 
-
+        socket.on('allTheUsers', function (data) {
+            addUsers(data);
+            console.log('Who\'s in the room?', data);
+        });
     });
 
-    //Show who is online
-    socket.emit('allTheUsers', allTheUsers);
 
-    socket.on('allTheUsers', function (data) {
-        addUsers(data);
-        console.log('Who\'s in the room?', data);
-    });
-//    socket.on('allTheUsers', addUsers);
+    socket.on('allTheUsers', allTheUsers);
 
 
     //When user connects, show that the user connected/disconnected
