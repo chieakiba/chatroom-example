@@ -33,16 +33,15 @@ $(document).ready(function () {
         allTheUsers.push(data);
         console.log('Who is this?', data);
         console.log('What\'s in the array?', allTheUsers);
-        socket.emit('allTheUsers', allTheUsers);
-
-
+        addUsers(allTheUsers);
     });
 
     //Show who is online
+    socket.emit('allTheUsers', addUsers);
     socket.on('allTheUsers', function (data) {
-        addUsers(data);
         console.log('Who\'s in the room?', data);
     });
+
 
     //When user connects, show that the user connected/disconnected
     //    socket.emit('userConnected', userConnected);
