@@ -44,15 +44,13 @@ $(document).ready(function () {
 
     //When user connects, show that the user connected/disconnected
     socket.emit('userConnected', userConnected);
-    socket.on('userConnected', function (data) {
-        userConnected(data);
-    });
+    userConnected(username);
+    socket.on('userConnected', userConnected);
 
     //When user disconnects, show that the user connected/disconnected
     socket.emit('userDisconnected', userDisconnected);
-    socket.on('userDisconnected', function (data) {
-        userDisconnected(data);
-    });
+    userDisconnected(username);
+    socket.on('userDisconnected', userDisconnected);
 
     //When user is typing, show that the user is typing
 
