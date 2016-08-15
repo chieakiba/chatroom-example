@@ -37,14 +37,7 @@ $(document).ready(function () {
         console.log('What\'s in the array?', allTheUsers);
 
         //Add whitespaces between usernames so it looks nice
-        allTheUsers.split('');
-        var prettyUsers = new Array();
-        for (var i = 0; i < allTheUsers.length; i++) {
-            prettyUsers.push(allTheUsers[i]);
-            if (i != allTheUsers.length - 1) {
-                prettyUsers.push('');
-            }
-        }
+        var prettyUsers = allTheUsers.join(', ');
 
         //Append the list of users on the page
         addUsers(prettyUsers);
