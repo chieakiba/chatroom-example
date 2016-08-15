@@ -11,37 +11,35 @@ var io = socket_io(server);
 io.on('connection', function (socket) {
     console.log('Client connected');
 
-    socket.on('userConnected', function (username) {
-        console.log(username, 'has connected');
-    });
-
+    //Listens to client side username prompt entries
     socket.on('username', function (username) {
         console.log('Who just got online?', username);
         socket.broadcast.emit('username', username);
     });
 
+    //Listens to client side emit to push all the usernames into an array and show it on the page
     socket.on('allTheUsers', function (allTheUsers) {
         console.log('Checking the array', allTheUsers);
         socket.broadcast.emit('allTheUsers', allTheUsers);
     });
 
+    //Listens to client side emit for when user sends a message
     socket.on('message', function (messageObject) {
         console.log('Received message:', messageObject);
         socket.broadcast.emit('message', messageObject);
     });
 
+    //Listens to client side emit for when user is typing
     socket.on('typing', function (typing) {
         console.log('Typing?', typing);
         socket.broadcast.emit('typing', typing);
     });
 
+    //Shows error message on the terminal
     socket.on('error', function (error) {
         console.log('What is the error? --', error);
     });
 
-    socket.on('userDisconnected', function (username) {
-        console.log(username, 'has disconnected');
-    });
 });
 
 server.listen(8080);

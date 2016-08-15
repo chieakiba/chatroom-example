@@ -1,5 +1,6 @@
 $(document).ready(function () {
     //global variables
+    var timeout;
     var socket = io();
     var usersInRoom = $('#usersInRoom');
     var addUsers = function (username) {
@@ -10,6 +11,7 @@ $(document).ready(function () {
     var username = prompt('Please enter your name');
     var allTheUsers = [];
 
+    //Appends the message on page with username. Checks that it is an object
     var addMessage = function (message) {
         if (typeof message == 'object') {
             console.log('message', message);
@@ -18,19 +20,6 @@ $(document).ready(function () {
             console.log('message', message);
             messages.append('<div>' + username + ": " + message + '</div>');
         }
-    };
-
-    //    var whoIsTyping = $('#userTyping');
-    //    var userIsTyping = function (typing) {
-    //        whoIsTyping.html('<div>' + typing.username + ' is typing...</div>');
-    //    };
-
-    var userDisconnected = function (username) {
-        messages.append('<div>' + username + ' has disconnected!</div>');
-    };
-
-    var userConnected = function (username) {
-        messages.append('<div>' + username + ' has connected!</div>');
     };
 
     //Using socket emitter to emit username once entered in the prompt
@@ -58,24 +47,13 @@ $(document).ready(function () {
         console.log('Who\'s in the room?', data);
     });
 
-    //When user connects, show that the user connected/disconnected
-    //    socket.emit('userConnected', userConnected);
-    //    userConnected(username);
-    //    socket.on('userConnected', userConnected);
-
-    //When user disconnects, show that the user connected/disconnected
-    //    socket.emit('userDisconnected', userDisconnected);
-    //    userDisconnected(username);
-    //    socket.on('userDisconnected', userDisconnected);
-
-    //When user is typing, show that the user is typing
-    var timeout;
-
+    //Function that emits message to the server side socket that the user is not typing
     function timeoutFunction() {
         typing = false;
         socket.emit('typing', false);
     };
 
+    //When user is typing, the client side emits a socket to the server side so it will broadcast who is typing
     input.on('keyup', function () {
         console.log('User is typing something...');
         typing = true;
@@ -83,20 +61,22 @@ $(document).ready(function () {
             username: username,
             typing: typing
         });
-        clearTimeout(timeout);
+        clearTimeout(timeout); //clears out the message when a certain amount of time passes after the user stops typing
         timeout = setTimeout(timeoutFunction, 1000);
     });
 
+    //Listens to the server side broadcast and adds the username and the message "is typing..."
     socket.on('typing', function (data) {
         if (data.typing == true) {
             $('#userTyping').html(data.username + ' is typing...');
-        } else {
+        } else { //otherwise removes the "is typing..." message
             $('#userTyping').html('');
         }
     });
 
+    //Keydown event
     input.on('keydown', function (event) {
-        if (event.keyCode != 13) {
+        if (event.keyCode != 13) { //If user did not hit enter, it keeps on letting the user type without doing anything
             return;
         }
 
