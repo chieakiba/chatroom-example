@@ -74,5 +74,9 @@ $(document).ready(function () {
         });
         input.val('');
     });
-    socket.on('message', addMessage);
+
+    socket.on('message', function (data) {
+        addMessage(data);
+        console.log('Is this the object literal?', data);
+    });
 });
