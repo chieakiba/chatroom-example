@@ -4,7 +4,7 @@ $(document).ready(function () {
     var socket = io();
     var usersInRoom = $('#usersInRoom');
     var addUsers = function (username) {
-        usersInRoom.append('<div>' + username + '</div></br>');
+        usersInRoom.html('<div>' + username + '</div></br>');
     };
     var input = $('input');
     var messages = $('#messages');
@@ -28,17 +28,29 @@ $(document).ready(function () {
     //Pushes the username into the array once user enters their handle name into the prompt
     allTheUsers.push(username);
 
+
+
     //Emit each usernames to the server side and once broadcasted, append the usernames onto the page and push those names into the array
     socket.on('username', function (data) {
         allTheUsers.push(data);
         console.log('Who is this?', data);
         console.log('What\'s in the array?', allTheUsers);
 
+        //Add whitespaces between usernames so it looks nice
+        allTheUsers.split('');
+        var prettyUsers = new Array();
+        for (var i = 0; i < allTheUsers.length; i++) {
+            prettyUsers.push(allTheUsers[i]);
+            if (i != allTheUsers.length - 1) {
+                prettyUsers.push('');
+            }
+        }
+
         //Append the list of users on the page
-        addUsers(allTheUsers);
+        addUsers(prettyUsers);
 
         //Emit the array to the server
-        socket.emit('allTheUsers', allTheUsers);
+        socket.emit('allTheUsers', prettyUsers);
     });
 
     //Show who is online

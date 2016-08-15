@@ -18,9 +18,9 @@ io.on('connection', function (socket) {
     });
 
     //Listens to client side emit to push all the usernames into an array and show it on the page
-    socket.on('allTheUsers', function (allTheUsers) {
-        console.log('Checking the array', allTheUsers);
-        socket.broadcast.emit('allTheUsers', allTheUsers);
+    socket.on('allTheUsers', function (prettyUsers) {
+        console.log('Checking the array', prettyUsers);
+        socket.broadcast.emit('allTheUsers', prettyUsers);
     });
 
     //Listens to client side emit for when user sends a message
