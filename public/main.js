@@ -79,14 +79,17 @@ $(document).ready(function () {
     input.on('keyup', function () {
         console.log('User is typing something...');
         typing = true;
-        socket.emit('typing', ' is typing...');
+        socket.emit('typing', {
+            username: username,
+            typing: typing
+        });
         clearTimeout(timeout);
         timeout = setTimeout(timeoutFunction, 5000);
     });
 
     socket.on('typing', function (data) {
-        if (data) {
-            $('#userTyping').html(username + data);
+        if (data.typing == true) {
+            $('#userTyping').html(data.username + ' is typing...');
         } else {
             $('#userTyping').html('');
         }
