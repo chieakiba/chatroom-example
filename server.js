@@ -30,11 +30,6 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('message', messageObject);
     });
 
-    socket.on('chatMessage', function (data) {
-        console.log('chatMessage', data);
-        socket.broadcast.emit('chatMessage', data);
-    });
-
     socket.on('error', function (error) {
         console.log('What is the error? --', error);
     });

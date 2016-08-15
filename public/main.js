@@ -10,9 +10,16 @@ $(document).ready(function () {
     var username = prompt('Please enter your name');
     var allTheUsers = [];
 
+    var addMessage = function (message) {
+        if (typeof message == 'object') {
+            console.log('message', message);
 
-    var addMessage = function (username, message) {
-        messages.append('<div>' + username + ': ' + message + '</div>');
+            messages.append('<div>' + message.username + ": " + message.message + '</div>');
+        } else {
+            console.log('message', message);
+
+            messages.append('<div>' + username + ": " + message + '</div>');
+        }
     };
 
     var userDisconnected = function (username) {
@@ -66,7 +73,7 @@ $(document).ready(function () {
         }
 
         var message = input.val();
-        addMessage(username, message);
+        addMessage(message);
         //Emit socket to server side so when user sends a message, the user will know who sent that message
         socket.emit('message', {
             username: username,
@@ -78,9 +85,5 @@ $(document).ready(function () {
     socket.on('message', function (data) {
         addMessage(data);
         console.log('Is this the object literal?', data);
-        socket.emit('chatMessage', data);
-
     });
-    socket.on('chatMessage', addMessage);
-
 });
