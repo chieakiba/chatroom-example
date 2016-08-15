@@ -8,41 +8,38 @@ app.use(express.static('public'));
 var server = http.Server(app);
 var io = socket_io(server);
 
-var usernames = [];
-
 io.on('connection', function (socket) {
     console.log('Client connected');
 
-    socket.on('connect', function (username, userConnected) {
-        usernames.push(username);
-        console.log('who\'s in the room?', usernames);
-        socket.broadcast.emit(username, userConnected);
-    });
-    //    console.log('who\'s in the room?', usernames);
-
-    socket.on('typing', function (userTyping) {
-        console.log('User is typing', userTyping);
-        socket.broadcast.emit('typing', userTyping);
+    //Listens to client side username prompt entries
+    socket.on('username', function (username) {
+        console.log('Who just got online?', username);
+        socket.broadcast.emit('username', username);
     });
 
-    socket.on('notTyping', function (userNotTyping) {
-        console.log('User is not typing', userNotTyping);
-        socket.broadcast.emit('Not typing', userNotTyping);
+    //Listens to client side emit to push all the usernames into an array and show it on the page
+    socket.on('allTheUsers', function (prettyUsers) {
+        console.log('Checking the array', prettyUsers);
+        socket.broadcast.emit('allTheUsers', prettyUsers);
     });
 
-    socket.on('message', function (message) {
-        console.log('Received message:', message);
-        socket.broadcast.emit('message', message);
-    });
-    //remove usernames from array (array manipulation)
-    socket.on('disconnect', function (username, userDisconnected) {
-        socket.broadcast.emit(username, userDisconnected);
+    //Listens to client side emit for when user sends a message
+    socket.on('message', function (messageObject) {
+        console.log('Received message:', messageObject);
+        socket.broadcast.emit('message', messageObject);
     });
 
+    //Listens to client side emit for when user is typing
+    socket.on('typing', function (typing) {
+        console.log('Typing?', typing);
+        socket.broadcast.emit('typing', typing);
+    });
+
+    //Shows error message on the terminal
     socket.on('error', function (error) {
-        console.log('Socket error! Something isn\'t working! ' + error);
-        socket.broadcast.emit(error);
+        console.log('What is the error? --', error);
     });
+
 });
 
 server.listen(process.env.PORT || 8080);
