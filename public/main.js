@@ -84,7 +84,7 @@ $(document).ready(function () {
             typing: typing
         });
         clearTimeout(timeout);
-        timeout = setTimeout(timeoutFunction, 3000);
+        timeout = setTimeout(timeoutFunction, 1000);
     });
 
     socket.on('typing', function (data) {
