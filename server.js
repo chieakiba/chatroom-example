@@ -30,6 +30,11 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('message', messageObject);
     });
 
+    socket.on('typing', function (data) {
+        console.log('Typing?', data);
+        socket.broadcast.emit('typing', data);
+    });
+
     socket.on('error', function (error) {
         console.log('What is the error? --', error);
     });

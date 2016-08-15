@@ -64,6 +64,28 @@ $(document).ready(function () {
     //    socket.on('userDisconnected', userDisconnected);
 
     //When user is typing, show that the user is typing
+    var timeout;
+
+    function timeoutFunction() {
+        typing = false;
+        socket.emit('typing', false);
+    };
+
+    input.on('keyup', function () {
+        console.log('User is typing something...');
+        typing = true;
+        socket.emit('typing', 'typing...');
+        clearTimeout(timeout);
+        timeout = setTimeout(timeoutFunction, 2000);
+    });
+
+    socket.on('typing', function (data) {
+        if (data) {
+            $('#userTyping').html(data);
+        } else {
+            $('#userTyping').html('');
+        }
+    });
 
     input.on('keydown', function (event) {
         if (event.keyCode != 13) {
@@ -80,6 +102,8 @@ $(document).ready(function () {
         input.val('');
 
     });
+
+    //Listens to the broadcast emited from the server side so it appends the username and data to the chatroom
     socket.on('message', function (data) {
         addMessage(data);
         console.log('Is this the object literal?', data);
