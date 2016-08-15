@@ -77,11 +77,8 @@ $(document).ready(function () {
     });
     socket.on('message', function (data) {
         addMessage(data);
-        socket.emit('messageToAll', data);
-        socket.on('messageToAll', addMessage);
         console.log('Is this the object literal?', data);
+        socket.emit('chatMessage', data);
     });
-
-
-
+    socket.on('chatMessage', data);
 });
