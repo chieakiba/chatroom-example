@@ -73,10 +73,15 @@ $(document).ready(function () {
             message: message
         });
         input.val('');
-    });
 
+    });
     socket.on('message', function (data) {
         addMessage(data);
+        socket.emit('messageToAll', data);
+        socket.on('messageToAll', addMessage);
         console.log('Is this the object literal?', data);
     });
+
+
+
 });

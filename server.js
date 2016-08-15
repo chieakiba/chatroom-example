@@ -25,9 +25,13 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('allTheUsers', allTheUsers);
     });
 
-    socket.on('message', function (data) {
-        console.log('Received message:', data);
-        socket.broadcast.emit('message', data);
+    socket.on('message', function (messageObject) {
+        console.log('Received message:', messageObject);
+        socket.broadcast.emit('message', messageObject);
+    });
+
+    socket.on('messageToAll', function (data) {
+        socket.broadcast.emit('messageToAll', data);
     });
 
     socket.on('error', function (error) {
