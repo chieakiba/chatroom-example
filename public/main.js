@@ -20,6 +20,11 @@ $(document).ready(function () {
         }
     };
 
+    //    var whoIsTyping = $('#userTyping');
+    //    var userIsTyping = function (typing) {
+    //        whoIsTyping.html('<div>' + typing.username + ' is typing...</div>');
+    //    };
+
     var userDisconnected = function (username) {
         messages.append('<div>' + username + ' has disconnected!</div>');
     };
@@ -74,14 +79,14 @@ $(document).ready(function () {
     input.on('keyup', function () {
         console.log('User is typing something...');
         typing = true;
-        socket.emit('typing', 'typing...');
+        socket.emit('typing', ' is typing...');
         clearTimeout(timeout);
-        timeout = setTimeout(timeoutFunction, 900);
+        timeout = setTimeout(timeoutFunction, 5000);
     });
 
     socket.on('typing', function (data) {
         if (data) {
-            $('#userTyping').html(data);
+            $('#userTyping').html(username + data);
         } else {
             $('#userTyping').html('');
         }
@@ -94,6 +99,7 @@ $(document).ready(function () {
 
         var message = input.val();
         addMessage(message);
+
         //Emit socket to server side so when user sends a message, the user will know who sent that message
         socket.emit('message', {
             username: username,
