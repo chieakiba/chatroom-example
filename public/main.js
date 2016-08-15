@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    //global variables
+    //Global variables
     var timeout;
     var socket = io();
     var usersInRoom = $('#usersInRoom');
@@ -63,7 +63,7 @@ $(document).ready(function () {
                 username: username,
                 typing: typing
             });
-            clearTimeout(timeout); //clears out the message when a certain amount of time passes after the user stops typing
+            clearTimeout(timeout); //Clears out the message when a certain amount of time passes after the user stops typing
             timeout = setTimeout(timeoutFunction, 1000);
         });
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
         socket.on('typing', function (data) {
             if (data.typing == true) {
                 $('#userTyping').html(data.username + ' is typing...');
-            } else { //otherwise removes the "is typing..." message
+            } else { //Otherwise removes the "is typing..." message
                 $('#userTyping').html('');
             }
         });
