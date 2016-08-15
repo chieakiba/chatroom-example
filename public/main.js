@@ -13,11 +13,9 @@ $(document).ready(function () {
     var addMessage = function (message) {
         if (typeof message == 'object') {
             console.log('message', message);
-
             messages.append('<div>' + message.username + ": " + message.message + '</div>');
         } else {
             console.log('message', message);
-
             messages.append('<div>' + username + ": " + message + '</div>');
         }
     };
