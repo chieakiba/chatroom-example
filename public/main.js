@@ -9,6 +9,8 @@ $(document).ready(function () {
     var input = $('input');
     var messages = $('#messages');
     var username = prompt('Please enter your name');
+
+    // Stores all users
     var allTheUsers = [];
 
     //Appends the message on page with username. Checks that it is an object
